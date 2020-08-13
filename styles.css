@@ -1,0 +1,108 @@
+div {
+    font-family: "Agency FB", monospace;
+}
+
+button {
+    border: blue dashed 2px;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: transparent;
+}
+
+button:hover {
+    box-shadow: 2px 2px #f8ec01;
+    cursor: pointer;
+}
+
+button:focus {
+    outline: none;
+}
+
+.slideshow {
+    position: relative;
+    overflow: hidden;
+    height: 400px;
+    z-index: 1;
+}
+
+.footballPitch {
+    width: 300%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: absolute;
+    background-color: darkgreen;
+    background-image: url("resources/pitch.jpg");
+    background-size: 1500px;
+    animation: slideshow 10s linear infinite;
+}
+
+@keyframes slideshow {
+    0%    { left: 0; }
+    100%  { left: -200%; }
+}
+
+.scoreBoard {
+    position: relative;
+    margin: 10px auto auto;
+    width: 200px;
+    height: auto;
+    padding: 10px;
+    text-align: center;
+
+    border: blue dashed 2px;
+    border-radius: 10px;
+}
+
+@keyframes scoreIncrement {
+    /*0% {font-size: inherit}*/
+    /*25% {font-size: x-large}*/
+    50% {color: #f8ec01}
+    /*75% {font-size: x-large}*/
+    /*100% {font-size: inherit}*/
+}
+
+.gameOver {
+    display: none;
+    position: relative;
+    width: 200px;
+    height: auto;
+    margin: 10px auto auto;
+    padding: 10px;
+    text-align: center;
+
+    border: blue dashed 2px;
+    border-radius: 10px;
+}
+
+.grid {
+    /*position: relative;*/
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    bottom: 0;
+}
+
+.hkane {
+    position: absolute;
+    bottom: 0;
+    left: auto; /* stops uncaught exception in index.js line 101 */
+    width: 200px;
+    height: 200px;
+    /*background-image: url("https://www.footyrenders.com/render/Harry-Kane-Tottenham.png");*/
+    background-image: url("resources/hkane.png");
+    background-size: 100% 100%;
+}
+
+.defender {
+    position: absolute;
+    bottom: 0;
+    width: 250px;
+    height: 230px;
+    /*background-color: blue;*/
+    background-image: url("resources/defender.png");
+    transform: scaleX(-1);
+    background-size: 100% 100%;
+
+}
+
