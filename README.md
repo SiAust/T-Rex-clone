@@ -1,6 +1,6 @@
 ## T-Rex Clone 
 A simple avoid the obstacle game made with HTML, CSS 
-and JavaScript. Inspired by Google's T-Rex game browser
+and JavaScript. Inspired by Google's T-Rex browser
 game.
 
 Made with help from 
