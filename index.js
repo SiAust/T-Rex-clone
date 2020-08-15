@@ -17,24 +17,31 @@ const attacker = document.querySelector('.hkane')
 const score = document.querySelector('#score')
 const highScore = document.querySelector('#HSSpan')
 const gameOver = document.querySelector('.gameOver')
+let button = document.querySelector("#restartButton")
+
+button.addEventListener("click", function () {
+    window.location.reload()
+})
 
 /* Sounds */
 const jumpWav = document.createElement("AUDIO")
 const gameOverWav = document.createElement("AUDIO")
 const milestone = document.createElement("AUDIO")
+const point = document.createElement('AUDIO')
 jumpWav.src = "resources/sounds/jump.wav"
 gameOverWav.src = "resources/sounds/gameOver.wav"
 milestone.src = "resources/sounds/milestone.wav"
+point.src = "resources/sounds/point.wav"
+
+/* Paths to images */
+const defenders = ["resources/defender1.png", "resources/defender2.png", "resources/defender3.png"]
+let defImage = 0
 
 let isJumping = false
 const gravity = 0.9
 let points = 0
 
-let button = document.querySelector("#restartButton")
-button.addEventListener("click", function () {
-    window.location.reload()
-})
-
+/* If there is a highScore cookie display the value in the HSSpan */
 setHighScore()
 
 function control() {
@@ -85,6 +92,12 @@ function generateObstacles() {
     let obstaclePosition = 1000
     const obstacle = document.createElement('div')
     obstacle.classList.add('defender')
+
+    obstacle.style.backgroundImage = "url(" + defenders[defImage] + ")"
+    defImage++
+    if (defImage === 3) defImage = 0
+    /* if defender 1 z-index -1, otherwise 2? */
+
     grid.appendChild(obstacle)
     obstacle.style.left = obstaclePosition + 'px'
 
@@ -110,6 +123,7 @@ function generateObstacles() {
 
             if (points > Number(document.cookie.substr(10,11))) {
                 document.cookie = "highScore=" + points + "; expires=Sun, 3 Feb 2030 12:00:00 UTC; path=/"
+                highScore.style.animation = 'scoreHighlight 1s linear infinite'
                 setHighScore()
             }
 
@@ -122,22 +136,35 @@ function generateObstacles() {
         /* Remove any defenders once they move left of the attacker, increment score */
         while (grid.hasChildNodes()) {
             let child = grid.lastChild
-            if (Number(child.className === 'defender' && child.style.left.replace('px', '')) < -100 ) {
-               grid.removeChild(grid.lastChild)
+            if (child.className === 'defender'
+                && Number(child.style.left.replace('px', '')) < -100 ) {
+                console.log('in the while if')
+                grid.removeChild(grid.lastChild)
                 points++
-                score.innerHTML = points.toString()
+                /* Asynchronously increment the score? Don't skip points? */
+                setTimeout(scoreIncrementer, 300)
+                // score.innerHTML = points.toString()
+                // point.play()
                 if (points % 10 === 0) milestone.play()
-                /*score.animate(KeyframeEffect.)*/
-                score.style.animation = 'scoreIncrement 1s linear infinite'
+                score.style.animation = 'scoreHighlight 1s linear infinite'
+                /* This allows adding the animation again and again, waits until animation completed */
+                setTimeout(removeAnimation, 1000)
             } else {
                 break
             }
-
         }
-
     }, 20)
 
     stopTimeout = setTimeout(generateObstacles, random)
+}
+
+function removeAnimation() {
+    score.style.animation = 'none'
+}
+
+function scoreIncrementer() {
+    score.innerHTML = points.toString()
+    point.play()
 }
 
 function setHighScore() {
