@@ -1,40 +1,53 @@
-div {
+div, button {
     font-family: "Agency FB", monospace;
+    font-size: 28px;
+    color: white;
+    text-shadow: 2px 2px black;
 }
 
-button {
-    border: blue dashed 2px;
-    border-radius: 10px;
-    padding: 10px;
-    background-color: transparent;
+a {
+    color: black;
+    text-shadow: none;
+    font-size: 18px;
 }
 
-button:hover {
-    box-shadow: 2px 2px #f8ec01;
-    cursor: pointer;
+a:hover {
+    text-shadow: gray 4px 4px 5px;
 }
 
-button:focus {
-    outline: none;
-}
+/* The background objects */
 
-.slideshow {
+.container {
     position: relative;
     overflow: hidden;
-    height: 400px;
+    height: 350px;
+    max-width: 1400px;
     z-index: 1;
 }
 
-.footballPitch {
+.grass {
+    width: 300%;
+    height: 50px;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    /*background-color: green;*/
+    background-image: url("resources/img/grass.png");
+    animation: none 10s linear infinite;
+    filter: grayscale(100%); /* Adds greyscale to the background image (T-Rex effect) */
+}
+
+.stadium {
     width: 300%;
     height: 100%;
     left: 0;
     top: 0;
     position: absolute;
     background-color: darkgreen;
-    background-image: url("resources/pitch.jpg");
-    background-size: 1500px;
-    animation: slideshow 10s linear infinite;
+    background-image: url("resources/img/stadium.png");
+    background-size: 1806px;
+    filter: grayscale(100%); /* Adds greyscale to the background image (T-Rex effect) */
+    animation: none 10s linear infinite;
 }
 
 @keyframes slideshow {
@@ -42,7 +55,9 @@ button:focus {
     100%  { left: -200%; }
 }
 
-.scoreBoard {
+/* Scoreboard and game over divs */
+
+.playGame {
     position: relative;
     margin: 10px auto auto;
     width: 200px;
@@ -50,8 +65,23 @@ button:focus {
     padding: 10px;
     text-align: center;
 
-    border: blue dashed 2px;
-    border-radius: 10px;
+    /*border: blue dashed 2px;*/
+    /*border-radius: 10px;*/
+
+}
+
+.scoreBoard {
+    display: none;
+    position: relative;
+    /*margin: 10px auto auto;*/
+    left: 70%;
+    width: 300px;
+    height: auto;
+    padding: 10px;
+    text-align: center;
+
+    /*border: blue dashed 2px;*/
+    /*border-radius: 10px;*/
 }
 
 @keyframes scoreHighlight {
@@ -60,6 +90,11 @@ button:focus {
     50% {color: #f8ec01}
     /*75% {font-size: x-large}*/
     /*100% {transform: rotate(360deg)}*/
+}
+
+
+#hs  {
+    padding-right: 30px;
 }
 
 .gameOver {
@@ -71,9 +106,38 @@ button:focus {
     padding: 10px;
     text-align: center;
 
-    border: blue dashed 2px;
-    border-radius: 10px;
+    /*border: blue dashed 2px;*/
+    /*border-radius: 10px;*/
 }
+
+#GOspan {
+    animation: gameOverAnim 1s linear infinite;
+}
+
+@keyframes gameOverAnim {
+    0% { opacity: 100%}
+    50% { opacity: 20%;}
+    100% { opacity: 100%; }
+
+}
+
+button {
+    border: none;
+    padding: 10px;
+    background-color: transparent;
+}
+
+button:hover {
+    /*box-shadow: 2px 2px white;*/
+    cursor: pointer;
+    text-shadow: gray 4px 4px 5px;
+}
+
+button:focus {
+    outline: none;
+}
+
+/* The divs which hold the player and obstacle objects */
 
 .grid {
     /*position: relative;*/
@@ -83,24 +147,33 @@ button:focus {
     bottom: 0;
 }
 
-.hkane {
+.player {
     position: absolute;
     bottom: 0;
     left: auto; /* stops uncaught exception in index.js line 101 */
     width: 200px;
     height: 200px;
-    /*background-image: url("https://www.footyrenders.com/render/Harry-Kane-Tottenham.png");*/
-    background-image: url("resources/hkane.png");
+    background-image: url("resources/img/attacker_run1.png");
     background-size: 100% 100%;
+    filter: grayscale(100%);
 }
 
 .defender {
     position: absolute;
     bottom: 0;
-    width: 250px;
-    height: 230px;
-    transform: scaleX(-1);
+    width: 200px;
+    height: 200px;
+    background-image: url("resources/img/defender_run1.png");
     background-size: 100% 100%;
+    filter: grayscale(100%);
+    /*animation: animateDefender 1s linear infinite;*/
+}
 
+@keyframes animateDefender {
+    /*0% {background-image: url("resources/img/defender_run1.png");}*/
+    /*50% {background-image: url("resources/img/defender_run2.png");}*/
+    25% {height: 120%}
+    50% {height: 150%}
+    75% {height: 120%}
 }
 

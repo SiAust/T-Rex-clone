@@ -8,21 +8,34 @@
 
 </head>
 <body>
-<div class="slideshow">
-    <div class="footballPitch"></div>
+<div class="container">
+    <div class="stadium"></div>
+<!--    <div class="stadium"></div>-->
+    <div class="playGame">
+        <p>Avoid the defenders by jumping with the <kbd>space</kbd> key.</p>
+        <p>Start game?</p>
+        <button id="startGame">Yes</button>
+    </div>
     <div class="scoreBoard">
-        <p>Score: <span id="score">0</span></p>
-        <p>High score: <span id="HSSpan">0</span></p>
+        <span id="hs">High score: <span id="hsScore">0</span></span>
+        Score: <span id="score">0</span>
 
     </div>
     <div class="gameOver">
-        <p>Gameover!</p>
+        <p><span id="GOspan">Gameover!</span></p>
         <p>Play again?</p>
-        <button id="restartButton">Yes</button>
+        <button id="restartButton">Yes / Yes</button>
     </div>
+    <div class="grass"></div>
     <div class="grid">
-        <div class="hkane"></div>
+        <div class="player"></div>
     </div>
+</div>
+
+<div>
+    <a href="https://dribbble.com/shots/1487469-Player-Sprites">Steve Ridgway Player Sprites</a><br>
+    <a href="https://www.vecteezy.com/free-vector/grass">Grass Vectors by Vecteezy</a><br>
+    <a href="https://www.vecteezy.com/free-vector/stadium">Stadium Vectors by Vecteezy</a>
 </div>
 
 
