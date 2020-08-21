@@ -7,6 +7,7 @@ const score = document.querySelector('#score')
 const highScore = document.querySelector('#hsScore')
 const gameOverDiv = document.querySelector('.gameOver')
 const goSpan = document.querySelector('#GOspan')
+const football = document.querySelector('.football')
 
 /* Sounds */
 const jumpWav = document.createElement("AUDIO")
@@ -22,6 +23,7 @@ point.src = "resources/sounds/point.wav"
 const defenders = ["resources/img/defender_run1.png", "resources/img/defender_run1.png", "resources/img/defender_run1.png"]
 let defImage = 0
 
+let clearPlayerAnimation
 let isJumping = false
 const gravity = 0.9
 let points = 0
@@ -38,21 +40,19 @@ document.addEventListener('keypress', function (e) {
 
 document.getElementById('startGame').addEventListener('click', function (e) {
 
-    // todo: remove this not sure I need it
-    let myWorker = new Worker('worker.js')
-    myWorker.postMessage('message sent to worker')
-    myWorker.onmessage = function (e) {
-        console.log('worker reply in index.js: ' + e.data)
-    }
-
     startGame = true
+
+    /* Remove playgame div and display scoreboard */
     document.querySelector('.playGame').style.display = "none"
     document.querySelector('.scoreBoard').style.display = "block"
+
+    /* Start animations */
     stadium.style.animation = "slideshow 10s linear infinite"
     grass.style.animation = "slideshow 20s linear infinite"
-    // todo: start all animations!
+    football.style.animation = "bobble 0.5s linear infinite"
+
     generateObstacles()
-    setInterval(changePlayerBG, 200, "attacker")
+    clearPlayerAnimation =  setInterval(changePlayerBG, 200)
 })
 
 document.addEventListener('keypress', function (e) {
@@ -69,39 +69,39 @@ document.querySelector("#restartButton").addEventListener("click", function () {
 /* If there is a highScore cookie display the value in the HSSpan */
 setHighScore()
 
-
 function control() {
     if (!isJumping) {
         isJumping = true
         jump()
     }
+    setTimeout(function () {
+        football.style.animation = "bobble 0.5s linear infinite"
+    }, 1000)
 }
 
 let playerImage = 0;
-// let clearPlayerAnimation = setInterval(changePlayerBG, 200, "attacker")
-// setTimeout(changePlayerBG, 1000)
 
 /* Pass in a string of the player type , refactor player to attacker? */
-function changePlayerBG(playerType) {
+function changePlayerBG() {
     if (!gameOver) {
         playerImage++
-        player.style.backgroundImage = "url(\"resources/img/" + playerType + "_run" + playerImage.toString() + ".png\")"
+        player.style.backgroundImage = "url(\"resources/img/attacker_run" + playerImage.toString() + ".png\")"
         if (playerImage === 2) playerImage = 0
     }
 }
 
 function changeDefenderBG(obstacle) {
-    console.log("bg: " + obstacle.style.backgroundImage)
-    if (obstacle.style.backgroundImage === 'url(\"resources/img/defender_run1.png\")') {
-        console.log('henlo')
+    let run1_path = 'url("resources/img/defender_run1.png")'
+    if (obstacle.style.backgroundImage === run1_path) {
         obstacle.style.backgroundImage = "url(\"resources/img/defender_run2.png\")"
-    } else obstacle.style.backgroundImage = "url(\"resources/img/defender_run1.png\")"
+    } else obstacle.style.backgroundImage = run1_path
 }
 
 let position = 0
 
 function jump() {
     jumpWav.play()
+    football.style.animation = "dodge 1s linear infinite"
     let count = 0
     let timerId = setInterval(function () {
         /* When count is 15, move player back to original position */
@@ -131,7 +131,6 @@ function jump() {
     }, 20)
 }
 
-
 let clearDefAnimArray = []
 
 function generateObstacles() {
@@ -150,12 +149,8 @@ function generateObstacles() {
     clearDefAnimArray.push(setInterval(changeDefenderBG, 200, obstacle))
     console.log(clearDefAnimArray)
 
-
-
     grid.appendChild(obstacle)
     obstacle.style.left = obstaclePosition + 'px'
-
-
 
     let obstacleTimer = setInterval(function () {
         // score.style.animation = 'none'
@@ -164,9 +159,21 @@ function generateObstacles() {
 
         /* If the player and defender collide, stop the game */
         if (obstaclePosition > 0 && obstaclePosition < 60 && position < 60) {
-            if (grid.lastChild.className === 'defender') grid.removeChild(grid.lastChild)
+            // if (grid.lastChild.className === 'defender') grid.removeChild(grid.lastChild)
+            // player.style.width = "250px"
+            player.style.backgroundImage = 'url("resources/img/attacker_tackled.png")'
+            setTimeout(function () {
+                player.style.animation = 'tackled 1s linear infinite'
+            }, 1000)
+            player.style.animation = "fall 1s cubic-bezier(0, 1.3, 0.89, 0.72) infinite"
+
+            football.style.display = "none"
+
+            gameOver = true
+
             clearInterval(obstacleTimer)
             clearTimeout(stopTimeout)
+            clearInterval(clearPlayerAnimation)
 
             gameOverWav.play()
 
