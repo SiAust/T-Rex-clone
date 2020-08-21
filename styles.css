@@ -15,6 +15,20 @@ a:hover {
     text-shadow: gray 4px 4px 5px;
 }
 
+kbd {
+    border: gray solid 2px;
+    border-radius: 10px;
+    font-family: monospace;
+    font-size: 18px;
+    padding: 2px;
+    text-shadow: none;
+    background-color: darkgray;
+}
+
+p {
+    margin: 10px;
+}
+
 /* The background objects */
 
 .container {
@@ -87,7 +101,7 @@ a:hover {
 @keyframes scoreHighlight {
     /*0% {transform: rotate(0deg)}*/
     /*25% {font-size: x-large}*/
-    50% {color: #f8ec01}
+    50% {color: gray}
     /*75% {font-size: x-large}*/
     /*100% {transform: rotate(360deg)}*/
 }
@@ -105,9 +119,6 @@ a:hover {
     margin: 10px auto auto;
     padding: 10px;
     text-align: center;
-
-    /*border: blue dashed 2px;*/
-    /*border-radius: 10px;*/
 }
 
 #GOspan {
@@ -153,9 +164,41 @@ button:focus {
     left: auto; /* stops uncaught exception in index.js line 101 */
     width: 200px;
     height: 200px;
-    background-image: url("resources/img/attacker_run1.png");
+    background-image: url("resources/img/attacker_stand.png");
     background-size: 100% 100%;
     filter: grayscale(100%);
+    animation: none 1s linear infinite;
+}
+
+@keyframes fall {
+    0% { bottom: 100px; left: 50px}
+    50% {bottom: 50px; left: 25px}
+    100% {bottom: 0; left: 0}
+
+}
+
+@keyframes tackled {
+    50% { transform: rotateX(10deg)}
+}
+
+.football {
+    position: absolute;
+    bottom: 10px;
+    left: 100px; /* stops uncaught exception in index.js line 101 */
+    width: 50px;
+    height: 50px;
+    background-size: 100% 100%;
+    filter: grayscale(100%);
+    background-image: url("resources/img/football.png");
+    animation: none 0.5s linear infinite;
+}
+
+@keyframes bobble {
+    50% { bottom: 13px; left: 110px}
+}
+
+@keyframes dodge {
+    50% { bottom: 150px; left: 130px}
 }
 
 .defender {
@@ -166,14 +209,6 @@ button:focus {
     background-image: url("resources/img/defender_run1.png");
     background-size: 100% 100%;
     filter: grayscale(100%);
-    /*animation: animateDefender 1s linear infinite;*/
 }
 
-@keyframes animateDefender {
-    /*0% {background-image: url("resources/img/defender_run1.png");}*/
-    /*50% {background-image: url("resources/img/defender_run2.png");}*/
-    25% {height: 120%}
-    50% {height: 150%}
-    75% {height: 120%}
-}
 
